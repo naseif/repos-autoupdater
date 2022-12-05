@@ -52,9 +52,9 @@ function checkIfProjectHasGit {
   $stdout = $check  | Where-Object { $_ -isnot [System.Management.Automation.ErrorRecord] }
 
   if ([string]$stdout -eq "true") {
-    return "True"
+    return $true
   } else {
-    return "False"
+    return $false
   }
 }
 
@@ -78,7 +78,7 @@ function checkForUpdatesAndApply {
 
 while($true) {
   $projectRepoExists = checkIfProjectHasGit -gitPath $repoDirectory
-  if ($projectRepoExists -eq "True") {
+  if ($projectRepoExists) {
     $checkForCommits = checkStatusAndCommit -gitPath $repoDirectory
     $updateRepo = checkForUpdatesAndApply -gitPath $repoDirectory
   } else {
